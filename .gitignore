@@ -129,3 +129,6 @@ node_modules/
 # Python
 __pycache__/
 *.pyc
+
+# App specific
+appsettings.json
