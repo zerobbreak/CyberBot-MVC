@@ -1,0 +1,130 @@
+@model List<ChatBot.Models.BotMessage>
+@{
+    ViewData["Title"] = "Secure Chat";
+}
+
+<div class="row h-100">
+    <!-- Sidebar -->
+    <div class="col-md-3 d-none d-md-block">
+        <div class="card h-100 border-0" style="background-color: var(--bg-panel);">
+            <div class="card-body">
+                <h5 class="text-neon mb-4"><i class="bi bi-lightning-charge me-2"></i>Quick Actions</h5>
+                <div class="d-grid gap-2 mb-5">
+                    <a asp-controller="Quiz" asp-action="Index" class="btn btn-outline-light text-start">
+                        <i class="bi bi-question-circle me-2"></i>Start Quiz
+                    </a>
+                    <a asp-controller="Task" asp-action="Index" class="btn btn-outline-light text-start">
+                        <i class="bi bi-list-check me-2"></i>View Tasks
+                    </a>
+                </div>
+
+                <h5 class="text-emerald mb-3"><i class="bi bi-shield-check me-2"></i>Security Tip</h5>
+                <div class="alert alert-dark border-secondary" id="tip-panel">
+                    <small class="text-muted" id="tip-text">Loading tip...</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Area -->
+    <div class="col-md-9 d-flex flex-column" style="height: 85vh;">
+        <div class="card flex-grow-1 mb-3 position-relative overflow-hidden">
+            <div class="card-body p-4" id="chat-window" style="overflow-y: auto; display: flex; flex-direction: column;">
+                @foreach (var msg in Model)
+                {
+                    <div class="d-flex mb-3 @(msg.Sender == "User" ? "justify-content-start" : "justify-content-end")">
+                        @if (msg.Sender == "User")
+                        {
+                            <div class="me-2 mt-1">
+                                <i class="bi bi-person-circle text-neon fs-4"></i>
+                            </div>
+                        }
+                        
+                        <div class="p-3 rounded-3 @(msg.Sender == "User" ? "bg-dark border border-secondary text-light" : "bg-primary text-white")" 
+                             style="max-width: 75%; position: relative; box-shadow: 0 2px 10px rgba(0,0,0,0.2);">
+                            <p class="mb-1">@msg.Text</p>
+                            <small class="d-block text-end @(msg.Sender == "User" ? "text-muted" : "text-white-50")" style="font-size: 0.7rem;">
+                                @msg.Timestamp.ToLocalTime().ToString("t")
+                            </small>
+                        </div>
+
+                        @if (msg.Sender == "Bot")
+                        {
+                            <div class="ms-2 mt-1">
+                                <i class="bi bi-shield-fill text-white fs-4"></i>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+            
+            <!-- Floating Input -->
+            <div class="p-3 bg-panel border-top border-secondary">
+                <form asp-action="SendMessage" method="post" class="d-flex align-items-center">
+                    <input type="hidden" name="clientOffset" id="clientOffset" />
+                    <input type="text" name="userMessage" class="form-control me-2 py-2 ps-4" 
+                           placeholder="Type your question..." autocomplete="off" autofocus 
+                           style="border-radius: 24px; background-color: var(--bg-dark);" />
+                    <button type="submit" class="btn btn-primary rounded-circle p-2" style="width: 45px; height: 45px;">
+                        <i class="bi bi-send-fill"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Set client timezone offset (in minutes)
+    document.getElementById('clientOffset').value = new Date().getTimezoneOffset();
+
+    // Scroll to bottom on load
+    window.onload = function() {
+        const chatWindow = document.getElementById('chat-window');
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+    };
+
+    // Rotating Tips
+    const tips = [
+        "Use a password manager to generate unique passwords.",
+        "Enable 2FA on all your important accounts.",
+        "Don't click links in unsolicited emails.",
+        "Keep your software updated to patch vulnerabilities.",
+        "Use a VPN when on public Wi-Fi."
+    ];
+    
+    function rotateTips() {
+        const tipElement = document.getElementById('tip-text');
+        const randomTip = tips[Math.floor(Math.random() * tips.length)];
+        tipElement.style.opacity = 0;
+        setTimeout(() => {
+            tipElement.innerText = randomTip;
+            tipElement.style.opacity = 1;
+        }, 500);
+    }
+
+    setInterval(rotateTips, 10000);
+    rotateTips(); // Initial call
+</script>
+
+<style>
+    /* Custom Scrollbar for Chat */
+    #chat-window::-webkit-scrollbar {
+        width: 8px;
+    }
+    #chat-window::-webkit-scrollbar-track {
+        background: var(--bg-dark);
+    }
+    #chat-window::-webkit-scrollbar-thumb {
+        background: #333; 
+        border-radius: 4px;
+    }
+    #chat-window::-webkit-scrollbar-thumb:hover {
+        background: var(--accent-primary); 
+    }
+    
+    /* Input Focus Glow */
+    .form-control:focus {
+        box-shadow: 0 0 15px rgba(0, 200, 255, 0.1);
+    }
+</style>

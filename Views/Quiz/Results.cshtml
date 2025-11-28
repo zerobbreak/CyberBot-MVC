@@ -1,0 +1,56 @@
+@{
+    ViewData["Title"] = "Quiz Results";
+    int score = ViewBag.Score;
+    int total = ViewBag.Total;
+    double percentage = (double)score / total * 100;
+}
+
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 70vh;">
+    <div class="card text-center p-5 border-0" style="max-width: 600px; width: 100%; background: linear-gradient(145deg, var(--bg-panel), var(--bg-dark)); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+        <div class="card-body">
+            <h1 class="display-4 fw-bold mb-4 text-white">Quiz Completed!</h1>
+            
+            <div class="position-relative d-inline-block mb-4">
+                <div class="rounded-circle d-flex align-items-center justify-content-center" 
+                     style="width: 150px; height: 150px; border: 4px solid var(--accent-primary); box-shadow: 0 0 20px var(--accent-primary);">
+                    <div>
+                        <span class="display-4 fw-bold text-white">@score</span>
+                        <span class="text-muted fs-5">/@total</span>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-neon mb-4">@percentage.ToString("0")% Score</h3>
+            
+            <div class="mb-5">
+                @if (percentage >= 80)
+                {
+                    <div class="alert alert-success bg-opacity-10 border-success text-success d-inline-block px-4">
+                        <i class="bi bi-trophy-fill me-2"></i>Excellent! You are a cybersecurity pro.
+                    </div>
+                }
+                else if (percentage >= 50)
+                {
+                    <div class="alert alert-warning bg-opacity-10 border-warning text-warning d-inline-block px-4">
+                        <i class="bi bi-star-fill me-2"></i>Good job! But there's room for improvement.
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-danger bg-opacity-10 border-danger text-danger d-inline-block px-4">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>Keep learning! Review the topics and try again.
+                    </div>
+                }
+            </div>
+
+            <div class="d-grid gap-3 d-sm-flex justify-content-center">
+                <a asp-controller="Chat" asp-action="Index" class="btn btn-outline-light btn-lg px-4">
+                    <i class="bi bi-chat-dots me-2"></i>Back to Chat
+                </a>
+                <a asp-action="Index" class="btn btn-primary btn-lg px-4">
+                    <i class="bi bi-arrow-repeat me-2"></i>Retake Quiz
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

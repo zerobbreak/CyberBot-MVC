@@ -1,0 +1,169 @@
+:root {
+    --bg-dark: #0D1117;
+    --bg-panel: #151B23;
+    /* Slightly lighter for sidebars/cards */
+    --bg-card: #1A222C;
+    /* For message bubbles/cards */
+    --accent-primary: #00C8FF;
+    /* Neon Blue */
+    --accent-secondary: #00D17A;
+    /* Emerald Green */
+    --text-main: #E6EDF3;
+    --text-muted: #8B949E;
+    --border-color: #30363D;
+    --font-main: 'Inter', 'Segoe UI', 'Roboto', sans-serif;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: var(--font-main);
+    letter-spacing: 0.02em;
+    /* Tech feel */
+    margin-bottom: 60px;
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--text-main);
+    font-weight: 600;
+}
+
+a {
+    color: var(--accent-primary);
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+a:hover {
+    color: #fff;
+    text-shadow: 0 0 8px var(--accent-primary);
+}
+
+/* Layout & Containers */
+.container {
+    max-width: 1200px;
+}
+
+.card {
+    background-color: var(--bg-panel);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    color: var(--text-main);
+    /* Ensure text is visible */
+}
+
+.card-header {
+    background-color: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 600;
+    color: var(--accent-primary);
+}
+
+.card-title,
+.card-text {
+    color: var(--text-main);
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: transparent;
+    border: 1px solid var(--accent-primary);
+    color: var(--accent-primary);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-primary);
+    color: #000;
+    box-shadow: 0 0 15px rgba(0, 200, 255, 0.4);
+}
+
+.btn-success {
+    background-color: var(--accent-secondary);
+    border: none;
+    color: #000;
+    font-weight: 600;
+}
+
+.btn-success:hover {
+    background-color: #00b368;
+    box-shadow: 0 0 15px rgba(0, 209, 122, 0.4);
+}
+
+/* Forms */
+.form-control {
+    background-color: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    border-radius: 8px;
+}
+
+.form-control::placeholder {
+    color: var(--text-muted);
+    opacity: 1;
+}
+
+.form-control:focus {
+    background-color: var(--bg-dark);
+    border-color: var(--accent-primary);
+    color: var(--text-main);
+    box-shadow: 0 0 0 2px rgba(0, 200, 255, 0.2);
+}
+
+/* Navbar Overrides */
+.navbar {
+    background-color: rgba(17, 17, 17, 0.95) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+.nav-link {
+    color: var(--text-muted) !important;
+    font-weight: 500;
+    margin: 0 10px;
+    position: relative;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--accent-primary) !important;
+}
+
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    /* Adjust based on navbar height */
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--accent-primary);
+    box-shadow: 0 0 8px var(--accent-primary);
+}
+
+.navbar-brand {
+    color: var(--text-main) !important;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+/* Utilities */
+.text-neon {
+    color: var(--accent-primary);
+}
+
+.text-emerald {
+    color: var(--accent-secondary);
+}
+
+.bg-panel {
+    background-color: var(--bg-panel);
+}

@@ -1,0 +1,84 @@
+@model List<ChatBot.Models.TaskItem>
+@{
+    ViewData["Title"] = "Tasks";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h2 class="mb-4 text-neon"><i class="bi bi-list-check me-2"></i>Your Cybersecurity Tasks</h2>
+        
+        <!-- Add Task Panel -->
+        <div class="card mb-5 border-secondary">
+            <div class="card-body">
+                <h5 class="card-title text-white mb-3">Add New Task</h5>
+                <form asp-action="Create" method="post" class="row g-3">
+                    <div class="col-md-7">
+                        <input type="text" name="description" class="form-control" placeholder="e.g., Change email password..." required />
+                    </div>
+                    <div class="col-md-3">
+                        <input type="datetime-local" name="reminderTime" class="form-control" />
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-success w-100">
+                            <i class="bi bi-plus-lg"></i> Add
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Task List -->
+        <div class="d-flex flex-column gap-3">
+            @if (!Model.Any())
+            {
+                <div class="text-center text-muted py-5">
+                    <i class="bi bi-clipboard-check display-1 opacity-25"></i>
+                    <p class="mt-3">No tasks yet. Stay secure!</p>
+                </div>
+            }
+            
+            @foreach (var task in Model)
+            {
+                <div class="card border-0 @(task.IsCompleted ? "opacity-50" : "")" style="background-color: var(--bg-panel);">
+                    <div class="card-body d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center flex-grow-1">
+                            <form asp-action="ToggleComplete" method="post" class="me-3">
+                                <input type="hidden" name="id" value="@task.Id" />
+                                <input type="hidden" name="isCompleted" value="@((!task.IsCompleted).ToString())" />
+                                <button type="submit" class="btn btn-link p-0 text-decoration-none">
+                                    @if (task.IsCompleted)
+                                    {
+                                        <i class="bi bi-check-circle-fill text-emerald fs-4"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="bi bi-circle text-muted fs-4"></i>
+                                    }
+                                </button>
+                            </form>
+                            
+                            <div>
+                                <h5 class="mb-0 @(task.IsCompleted ? "text-decoration-line-through text-muted" : "text-white")">
+                                    @task.Description
+                                </h5>
+                                @if (task.ReminderTime.HasValue)
+                                {
+                                    <small class="text-neon">
+                                        <i class="bi bi-alarm me-1"></i>Due: @task.ReminderTime.Value.ToString("g")
+                                    </small>
+                                }
+                            </div>
+                        </div>
+
+                        <form asp-action="Delete" method="post">
+                            <input type="hidden" name="id" value="@task.Id" />
+                            <button type="submit" class="btn btn-outline-danger btn-sm border-0">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

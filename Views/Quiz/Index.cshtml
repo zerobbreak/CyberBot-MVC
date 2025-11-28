@@ -1,0 +1,17 @@
+@{
+    ViewData["Title"] = "Start Quiz";
+}
+
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 70vh;">
+    <div class="card text-center p-5 border-primary" style="max-width: 600px; width: 100%;">
+        <div class="card-body">
+            <i class="bi bi-shield-lock display-1 text-neon mb-4"></i>
+            <h1 class="display-5 fw-bold mb-3">Cybersecurity Quiz</h1>
+            <p class="lead text-muted mb-5">Test your knowledge with 10 questions about online safety, phishing, and privacy.</p>
+            
+            <a asp-action="Question" class="btn btn-primary btn-lg px-5 py-3 rounded-pill fw-bold">
+                <i class="bi bi-play-fill me-2"></i>Start Quiz
+            </a>
+        </div>
+    </div>
+</div>
